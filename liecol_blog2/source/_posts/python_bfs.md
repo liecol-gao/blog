@@ -15,9 +15,9 @@ categories:
 | D | E | F |   | G |   | H |
 |   |   |   |   | I |   |   |
 
-dfs:顺序应该为：ABCEDF CGH I
+dfs:顺序应该为：ABDEF CGH I
 
-bfs:顺序应该为：ABC EDF GH I
+bfs:顺序应该为：ABC DEF GH I
 
 笔者总结：深度优先的过程也就是递归的过程, 而bfs是层级的过程，所以广度优先不可避免的需要用到队列。
 
