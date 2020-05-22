@@ -1,0 +1,72 @@
+<article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %>" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <%- partial('post/date', {class_name: 'article-date', date_format: null}) %>
+    <%- partial('post/category') %>
+  </div>
+  <div class="article-inner">
+    <%- partial('post/gallery') %>
+    <% if (post.link || post.title){ %>
+      <header class="article-header">
+        <%- partial('post/title', {class_name: 'article-title'}) %>
+      </header>
+    <% } %>
+    <div class="article-entry" itemprop="articleBody">
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link){ %>
+          <p class="article-more-link">
+            <a href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %></a>
+          </p>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
+    </div>
+    <footer class="article-footer">
+      <% if (config.baidushare || theme.baidushare){ %>
+        <a data-url="<%- post.permalink %>" data-id="<%= post._id %>" class="article-share-link" data-share="baidu" data-title="<%= post.title %>"><%= __('share') %></a>
+      <% } else { %>
+        <a data-url="<%- post.permalink %>" data-id="<%= post._id %>" class="article-share-link"><%= __('share') %></a>
+      <% } %>
+
+      <% if (post.comments && (config.duoshuo_shortname || theme.duoshuo_shortname)){ %>
+        <a href="<%- post.permalink %>#ds-thread" class="article-comment-link"><%= __('comments') %></a>
+      <% } else if (post.comments && (config.disqus_shortname || theme.disqus_shortname)){ %>
+        <a href="<%- post.permalink %>#disqus_thread" class="article-comment-link"><%= __('comments') %></a>
+      <% } %>
+
+      <%- partial('post/tag') %>
+    </footer>
+  </div>
+
+  <% if (!index){ %>
+    <! -- 添加版权信息 -->
+    <div style="margin-top:20px;">
+    <div>
+    <b>注:</b> 转载请注明出处,本文作者为
+    <a style="color:#e32d40;" href="<%= config.root %>index.html" target="_blank" title="<%= config.author %>"><%= config.author %></a>,
+    本文标题为
+    <a style="color:#e32d40;" href="<%- config.root %><%- post.path %>" target="_blank" title="<%= post.title %>"><%= post.title %></a>
+    </div>
+    <div>
+    &nbsp;&nbsp;&nbsp;&nbsp;本文链接为
+    <a style="color:#e32d40;" href="<%- config.root %><%- post.path %>" target="_blank" title="<%= post.title %>"><%- config.url %>/<%- post.path %></a>.
+    </div>
+    </div>
+    <! -- 添加版权信息 -->
+
+    <%- partial('post/nav') %>
+  <% } %>
+</article>
+
+<% if (!index && post.comments && (config.duoshuo_shortname || theme.duoshuo_shortname)){ %>
+  <!--PC和WAP自适应版-->
+  <div id="SOHUCS" sid="<%= post.title %>" ></div> 
+  <script type="text/javascript"> 
+  (function(){ 
+  var appid = 'cysWveYe9'; 
+  var conf = 'prod_17d4525b97e67d157e2c5e0a2cedfcd7'; 
+  var width = window.innerWidth || document.documentElement.clientWidth; 
+  if (width < 960) { 
+  window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+<% } %>
